@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+		PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!--导入属性配置-->
+	<properties resource="datasource.properties"></properties>
+
+	<!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
+	<classPathEntry location="${db.driverLocation}"/>
+
+	<!-- context 是逆向工程的主要配置信息 -->
+	<!-- id：起个名字 -->
+	<!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
+	<!--MyBatis3Simple-->
+	<context id="default" targetRuntime="MyBatis3">
+
+		<property name="javaFileEncoding" value="UTF-8"/>
+
+		<!-- 配置生成toString()方法 -->
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+		<!-- 查询单条数据插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>
+		<!-- MySQL分页插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.LimitPlugin"/>
+		<!-- Example Criteria 增强插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.ExampleEnhancedPlugin"/>
+		<!-- 数据Model链式构建插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.ModelBuilderPlugin"/>
+		<!-- Example 目标包修改插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.ExampleTargetPlugin">
+			<!-- 修改Example类生成到目标包下 -->
+			<property name="targetPackage" value="com.vehicle300.demo.example"/>
+		</plugin>
+		<!-- 批量插入插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin">
+			<!--
+			开启后可以实现官方插件根据属性是否为空决定是否插入该字段功能
+			！需开启allowMultiQueries=true多条sql提交操作，所以不建议使用！插件默认不开启
+			-->
+			<property name="allowMultiQueries" value="false"/>
+		</plugin>
+		<!-- 逻辑删除插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.LogicalDeletePlugin">
+			<!-- 这里配置的是全局逻辑删除列和逻辑删除值，当然在table中配置的值会覆盖该全局配置 -->
+			<!-- 逻辑删除列类型只能为数字、字符串或者布尔类型 -->
+			<property name="logicalDeleteColumn" value="del_flag"/>
+			<!-- 逻辑删除-已删除值 -->
+			<property name="logicalDeleteValue" value="9"/>
+			<!-- 逻辑删除-未删除值 -->
+			<property name="logicalUnDeleteValue" value="0"/>
+			<!-- 逻辑删除常量名称，不配置默认为 IS_DELETED -->
+			<property name="logicalDeleteConstName" value="IS_DELETED"/>
+			<!-- 逻辑删除常量（未删除）名称，不配置默认为 NOT_DELETED -->
+			<property name="logicalUnDeleteConstName" value="NOT_DELETED"/>
+		</plugin>
+		<!--<table tableName="tb">-->
+		<!--&lt;!&ndash; 这里可以单独表配置逻辑删除列和删除值，覆盖全局配置 &ndash;&gt;-->
+		<!--<property name="logicalDeleteColumn" value="del_flag"/>-->
+		<!--<property name="logicalDeleteValue" value="1"/>-->
+		<!--<property name="logicalUnDeleteValue" value="-1"/>-->
+		<!--</table>-->
+		<!-- 数据Model属性对应Column获取插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>
+		<!-- 存在即更新插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.UpsertPlugin">
+			<!--
+			支持upsertByExample，upsertByExampleSelective操作
+			！需开启allowMultiQueries=true多条sql提交操作，所以不建议使用！插件默认不开启
+			-->
+			<property name="allowMultiQueries" value="false"/>
+			<!--
+			开启批量功能，支持batchUpsert,batchUpsertWithBLOBs,batchUpserSelective
+			！这几个方法中无法支持IncrementsPlugin的方法！插件默认不开启
+			-->
+			<property name="allowBatchUpsert" value="fasle"/>
+		</plugin>
+		<!-- Selective选择插入更新增强插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.SelectiveEnhancedPlugin"/>
+		<!-- 增量插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.IncrementsPlugin"/>
+
+		<!--<table tableName="tb">-->
+		<!--&lt;!&ndash; 配置需要进行增量操作的列名称（英文半角逗号分隔） &ndash;&gt;-->
+		<!--<property name="incrementsColumns" value="field1,field2"/>-->
+		<!--</table>-->
+		<!-- 查询结果选择性返回插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.SelectSelectivePlugin"/>
+		<!-- 乐观锁插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.OptimisticLockerPlugin">
+			<!-- 是否启用自定义nextVersion，默认不启用(插件会默认使用sql的 set column = column + 1) -->
+			<property name="customizedNextVersion" value="false"/>
+		</plugin>
+
+		<!--<table tableName="tb">-->
+		<!--&lt;!&ndash; 这里可以单独表配置，覆盖全局配置 &ndash;&gt;-->
+		<!--<property name="customizedNextVersion" value="true"/>-->
+		<!--&lt;!&ndash; 指定版本列 &ndash;&gt;-->
+		<!--<property name="versionColumn" value="version"/>-->
+		<!--</table>-->
+		<!-- Lombok插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.LombokPlugin"/>
+		<!-- 数据ModelCloneable插件 -->
+		<plugin type="com.itfsw.mybatis.generator.plugins.ModelCloneablePlugin"/>
+
+		<plugin type="com.itfsw.mybatis.generator.plugins.EnumTypeStatusPlugin">
+			<property name="autoScan" value="true"/>
+		</plugin>
+
+		<!--optional,旨在创建class时，对注释进行控制-->
+		<commentGenerator>
+			<property name="suppressDate" value="true"/>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>
+
+		<!--jdbc的数据库连接-->
+		<jdbcConnection driverClass="${db.driverClassName}"
+		                connectionURL="${db.url}"
+		                userId="${db.username}"
+		                password="${db.password}">
+		</jdbcConnection>
+
+		<!--非必须，类型处理器，在数据库类型和java类型之间的转换控制-->
+		<javaTypeResolver>
+			<!-- 默认情况下数据库中的 decimal，bigInt 在 Java 对应是 sql 下的 BigDecimal 类 -->
+			<!-- 不是 double 和 long 类型 -->
+			<!-- 使用常用的基本类型代替 sql 包下的引用类型 -->
+			<property name="forceBigDecimals" value="false"/>
+		</javaTypeResolver>
+
+		<!-- targetPackage：生成的实体类所在的包 -->
+		<!-- targetProject：生成的实体类所在的硬盘位置 -->
+		<javaModelGenerator targetPackage="com.vehicle300.demo.model"
+		                    targetProject="src/main/java">
+			<!-- 是否允许子包 -->
+			<property name="enableSubPackages" value="false"/>
+			<!-- 是否对modal添加构造函数 -->
+			<property name="constructorBased" value="true"/>
+			<!-- 是否清理从数据库中查询出的字符串左右两边的空白字符 -->
+			<property name="trimStrings" value="true"/>
+			<!-- 建立modal对象是否不可改变 即生成的modal对象不会有setter方法，只有构造方法 -->
+			<property name="immutable" value="false"/>
+		</javaModelGenerator>
+
+		<!-- targetPackage 和 targetProject：生成的 mappers 文件的包和位置 -->
+		<sqlMapGenerator targetPackage="mybatis.mapper"
+		                 targetProject="src/main/resources">
+			<!-- 针对数据库的一个配置，是否把 schema 作为字包名 -->
+			<property name="enableSubPackages" value="false"/>
+		</sqlMapGenerator>
+
+		<!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
+		<!--1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；-->
+		<!--2，MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；-->
+		<!--3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；-->
+		<javaClientGenerator type="XMLMAPPER"
+		                     targetPackage="com.vehicle300.demo.dao" targetProject="src/main/java">
+			<!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
+			<property name="enableSubPackages" value="false"/>
+		</javaClientGenerator>
+		<table tableName="mobile_info" domainObjectName="MobileInfo"
+		       enableSelectByExample="true" enableCountByExample="true"
+		       enableUpdateByExample="true" enableDeleteByExample="true"
+		>
+		</table>
+
+	</context>
+</generatorConfiguration>
